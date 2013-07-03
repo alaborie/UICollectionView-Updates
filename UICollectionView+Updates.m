@@ -12,7 +12,7 @@
 
 #import "UICollectionView+Updates.h"
 
-@interface PBUpdateProxy : NSProxy
+@interface UpdateProxy : NSProxy
 {
 }
 
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation PBUpdateProxy
+@implementation UpdateProxy
 
 #pragma mark - Lifecycle
 
@@ -65,7 +65,7 @@ static char kUICollectionViewUpdateProxyKey;
 
 - (void)beginUpdates
 {
-    PBUpdateProxy *updateProxy = [[PBUpdateProxy alloc] initWithTarget:self];
+    UpdateProxy *updateProxy = [[UpdateProxy alloc] initWithTarget:self];
 
     objc_setAssociatedObject(self, &kUICollectionViewUpdateProxyKey, updateProxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -73,7 +73,7 @@ static char kUICollectionViewUpdateProxyKey;
 - (void)endUpdates
 {
     void (^updateBlock)() = ^{
-        PBUpdateProxy *updateProxy = [self updateProxy];
+        UpdateProxy *updateProxy = [self updateProxy];
 
         [updateProxy.invocationsList makeObjectsPerformSelector:@selector(invokeWithTarget:) withObject:self];
     };
